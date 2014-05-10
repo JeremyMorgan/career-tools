@@ -1,0 +1,591 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="careertoolsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="CompanyID" />
+          </Key>
+          <Property Name="CompanyID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="CompanyName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Contact">
+          <Key>
+            <PropertyRef Name="ContactID" />
+          </Key>
+          <Property Name="ContactID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="RecruitingCompanyFK" Type="int" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="ContactType">
+          <Key>
+            <PropertyRef Name="ContactTypeID" />
+          </Key>
+          <Property Name="ContactTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ContactTypeName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Event">
+          <Key>
+            <PropertyRef Name="EventID" />
+          </Key>
+          <Property Name="EventID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ContactFK" Type="int" Nullable="false" />
+          <Property Name="JobFK" Type="int" Nullable="false" />
+          <Property Name="TypeFK" Type="int" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="StageFK" Type="int" Nullable="false" />
+          <Property Name="Notes" Type="text" />
+        </EntityType>
+        <EntityType Name="Job">
+          <Key>
+            <PropertyRef Name="JobID" />
+          </Key>
+          <Property Name="JobID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="JobTitle" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Company" Type="int" Nullable="false" />
+          <Property Name="ReferType" Type="int" Nullable="false" />
+          <Property Name="Priority" Type="int" Nullable="false" />
+          <Property Name="TermFK" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RecruitingCompany">
+          <Key>
+            <PropertyRef Name="RecruitingCompanyID" />
+          </Key>
+          <Property Name="RecruitingCompanyID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="CompanyName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Refer">
+          <Key>
+            <PropertyRef Name="ReferID" />
+          </Key>
+          <Property Name="ReferID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Stage">
+          <Key>
+            <PropertyRef Name="StageID" />
+          </Key>
+          <Property Name="StageID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StageName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Term">
+          <Key>
+            <PropertyRef Name="TermId" />
+          </Key>
+          <Property Name="TermId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TermName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Contact_RecruitingCompany">
+          <End Role="RecruitingCompany" Type="Self.RecruitingCompany" Multiplicity="1" />
+          <End Role="Contact" Type="Self.Contact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RecruitingCompany">
+              <PropertyRef Name="RecruitingCompanyID" />
+            </Principal>
+            <Dependent Role="Contact">
+              <PropertyRef Name="RecruitingCompanyFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Event_Contact">
+          <End Role="Contact" Type="Self.Contact" Multiplicity="1" />
+          <End Role="Event" Type="Self.Event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contact">
+              <PropertyRef Name="ContactID" />
+            </Principal>
+            <Dependent Role="Event">
+              <PropertyRef Name="ContactFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Event_ContactType">
+          <End Role="ContactType" Type="Self.ContactType" Multiplicity="1" />
+          <End Role="Event" Type="Self.Event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContactType">
+              <PropertyRef Name="ContactTypeID" />
+            </Principal>
+            <Dependent Role="Event">
+              <PropertyRef Name="ContactFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Event_Job">
+          <End Role="Job" Type="Self.Job" Multiplicity="1" />
+          <End Role="Event" Type="Self.Event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Job">
+              <PropertyRef Name="JobID" />
+            </Principal>
+            <Dependent Role="Event">
+              <PropertyRef Name="JobFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Event_Stage">
+          <End Role="Stage" Type="Self.Stage" Multiplicity="1" />
+          <End Role="Event" Type="Self.Event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stage">
+              <PropertyRef Name="StageID" />
+            </Principal>
+            <Dependent Role="Event">
+              <PropertyRef Name="StageFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Job_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="1" />
+          <End Role="Job" Type="Self.Job" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyID" />
+            </Principal>
+            <Dependent Role="Job">
+              <PropertyRef Name="Company" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Job_Refer">
+          <End Role="Refer" Type="Self.Refer" Multiplicity="1" />
+          <End Role="Job" Type="Self.Job" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Refer">
+              <PropertyRef Name="ReferID" />
+            </Principal>
+            <Dependent Role="Job">
+              <PropertyRef Name="ReferType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Job_Term">
+          <End Role="Term" Type="Self.Term" Multiplicity="1" />
+          <End Role="Job" Type="Self.Job" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Term">
+              <PropertyRef Name="TermId" />
+            </Principal>
+            <Dependent Role="Job">
+              <PropertyRef Name="TermFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="careertoolsModelStoreContainer">
+          <EntitySet Name="Company" EntityType="Self.Company" Schema="careertools" store:Type="Tables" />
+          <EntitySet Name="Contact" EntityType="Self.Contact" Schema="careertools" store:Type="Tables" />
+          <EntitySet Name="ContactType" EntityType="Self.ContactType" Schema="careertools" store:Type="Tables" />
+          <EntitySet Name="Event" EntityType="Self.Event" Schema="careertools" store:Type="Tables" />
+          <EntitySet Name="Job" EntityType="Self.Job" Schema="careertools" store:Type="Tables" />
+          <EntitySet Name="RecruitingCompany" EntityType="Self.RecruitingCompany" Schema="careertools" store:Type="Tables" />
+          <EntitySet Name="Refer" EntityType="Self.Refer" Schema="careertools" store:Type="Tables" />
+          <EntitySet Name="Stage" EntityType="Self.Stage" Schema="careertools" store:Type="Tables" />
+          <EntitySet Name="Term" EntityType="Self.Term" Schema="careertools" store:Type="Tables" />
+          <AssociationSet Name="FK_Contact_RecruitingCompany" Association="Self.FK_Contact_RecruitingCompany">
+            <End Role="RecruitingCompany" EntitySet="RecruitingCompany" />
+            <End Role="Contact" EntitySet="Contact" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Event_Contact" Association="Self.FK_Event_Contact">
+            <End Role="Contact" EntitySet="Contact" />
+            <End Role="Event" EntitySet="Event" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Event_ContactType" Association="Self.FK_Event_ContactType">
+            <End Role="ContactType" EntitySet="ContactType" />
+            <End Role="Event" EntitySet="Event" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Event_Job" Association="Self.FK_Event_Job">
+            <End Role="Job" EntitySet="Job" />
+            <End Role="Event" EntitySet="Event" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Event_Stage" Association="Self.FK_Event_Stage">
+            <End Role="Stage" EntitySet="Stage" />
+            <End Role="Event" EntitySet="Event" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Job_Company" Association="Self.FK_Job_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="Job" EntitySet="Job" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Job_Refer" Association="Self.FK_Job_Refer">
+            <End Role="Refer" EntitySet="Refer" />
+            <End Role="Job" EntitySet="Job" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Job_Term" Association="Self.FK_Job_Term">
+            <End Role="Term" EntitySet="Term" />
+            <End Role="Job" EntitySet="Job" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="careertoolsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="CompanyID" />
+          </Key>
+          <Property Name="CompanyID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CompanyName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Jobs" Relationship="Self.FK_Job_Company" FromRole="Company" ToRole="Job" />
+        </EntityType>
+        <EntityType Name="Contact">
+          <Key>
+            <PropertyRef Name="ContactID" />
+          </Key>
+          <Property Name="ContactID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RecruitingCompanyFK" Type="Int32" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="RecruitingCompany" Relationship="Self.FK_Contact_RecruitingCompany" FromRole="Contact" ToRole="RecruitingCompany" />
+          <NavigationProperty Name="Events" Relationship="Self.FK_Event_Contact" FromRole="Contact" ToRole="Event" />
+        </EntityType>
+        <EntityType Name="ContactType">
+          <Key>
+            <PropertyRef Name="ContactTypeID" />
+          </Key>
+          <Property Name="ContactTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ContactTypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Events" Relationship="Self.FK_Event_ContactType" FromRole="ContactType" ToRole="Event" />
+        </EntityType>
+        <EntityType Name="Event">
+          <Key>
+            <PropertyRef Name="EventID" />
+          </Key>
+          <Property Name="EventID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ContactFK" Type="Int32" Nullable="false" />
+          <Property Name="JobFK" Type="Int32" Nullable="false" />
+          <Property Name="TypeFK" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="StageFK" Type="Int32" Nullable="false" />
+          <Property Name="Notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Contact" Relationship="Self.FK_Event_Contact" FromRole="Event" ToRole="Contact" />
+          <NavigationProperty Name="ContactType" Relationship="Self.FK_Event_ContactType" FromRole="Event" ToRole="ContactType" />
+          <NavigationProperty Name="Job" Relationship="Self.FK_Event_Job" FromRole="Event" ToRole="Job" />
+          <NavigationProperty Name="Stage" Relationship="Self.FK_Event_Stage" FromRole="Event" ToRole="Stage" />
+        </EntityType>
+        <EntityType Name="Job">
+          <Key>
+            <PropertyRef Name="JobID" />
+          </Key>
+          <Property Name="JobID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="JobTitle" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Company" Type="Int32" Nullable="false" />
+          <Property Name="ReferType" Type="Int32" Nullable="false" />
+          <Property Name="Priority" Type="Int32" Nullable="false" />
+          <Property Name="TermFK" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Company1" Relationship="Self.FK_Job_Company" FromRole="Job" ToRole="Company" />
+          <NavigationProperty Name="Events" Relationship="Self.FK_Event_Job" FromRole="Job" ToRole="Event" />
+          <NavigationProperty Name="Refer" Relationship="Self.FK_Job_Refer" FromRole="Job" ToRole="Refer" />
+          <NavigationProperty Name="Term" Relationship="Self.FK_Job_Term" FromRole="Job" ToRole="Term" />
+        </EntityType>
+        <EntityType Name="RecruitingCompany">
+          <Key>
+            <PropertyRef Name="RecruitingCompanyID" />
+          </Key>
+          <Property Name="RecruitingCompanyID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CompanyName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Contacts" Relationship="Self.FK_Contact_RecruitingCompany" FromRole="RecruitingCompany" ToRole="Contact" />
+        </EntityType>
+        <EntityType Name="Refer">
+          <Key>
+            <PropertyRef Name="ReferID" />
+          </Key>
+          <Property Name="ReferID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Jobs" Relationship="Self.FK_Job_Refer" FromRole="Refer" ToRole="Job" />
+        </EntityType>
+        <EntityType Name="Stage">
+          <Key>
+            <PropertyRef Name="StageID" />
+          </Key>
+          <Property Name="StageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StageName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Events" Relationship="Self.FK_Event_Stage" FromRole="Stage" ToRole="Event" />
+        </EntityType>
+        <EntityType Name="Term">
+          <Key>
+            <PropertyRef Name="TermId" />
+          </Key>
+          <Property Name="TermId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TermName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Jobs" Relationship="Self.FK_Job_Term" FromRole="Term" ToRole="Job" />
+        </EntityType>
+        <Association Name="FK_Job_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="1" />
+          <End Role="Job" Type="Self.Job" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyID" />
+            </Principal>
+            <Dependent Role="Job">
+              <PropertyRef Name="Company" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Contact_RecruitingCompany">
+          <End Role="RecruitingCompany" Type="Self.RecruitingCompany" Multiplicity="1" />
+          <End Role="Contact" Type="Self.Contact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RecruitingCompany">
+              <PropertyRef Name="RecruitingCompanyID" />
+            </Principal>
+            <Dependent Role="Contact">
+              <PropertyRef Name="RecruitingCompanyFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Event_Contact">
+          <End Role="Contact" Type="Self.Contact" Multiplicity="1" />
+          <End Role="Event" Type="Self.Event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contact">
+              <PropertyRef Name="ContactID" />
+            </Principal>
+            <Dependent Role="Event">
+              <PropertyRef Name="ContactFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Event_ContactType">
+          <End Role="ContactType" Type="Self.ContactType" Multiplicity="1" />
+          <End Role="Event" Type="Self.Event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContactType">
+              <PropertyRef Name="ContactTypeID" />
+            </Principal>
+            <Dependent Role="Event">
+              <PropertyRef Name="ContactFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Event_Job">
+          <End Role="Job" Type="Self.Job" Multiplicity="1" />
+          <End Role="Event" Type="Self.Event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Job">
+              <PropertyRef Name="JobID" />
+            </Principal>
+            <Dependent Role="Event">
+              <PropertyRef Name="JobFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Event_Stage">
+          <End Role="Stage" Type="Self.Stage" Multiplicity="1" />
+          <End Role="Event" Type="Self.Event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stage">
+              <PropertyRef Name="StageID" />
+            </Principal>
+            <Dependent Role="Event">
+              <PropertyRef Name="StageFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Job_Refer">
+          <End Role="Refer" Type="Self.Refer" Multiplicity="1" />
+          <End Role="Job" Type="Self.Job" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Refer">
+              <PropertyRef Name="ReferID" />
+            </Principal>
+            <Dependent Role="Job">
+              <PropertyRef Name="ReferType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Job_Term">
+          <End Role="Term" Type="Self.Term" Multiplicity="1" />
+          <End Role="Job" Type="Self.Job" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Term">
+              <PropertyRef Name="TermId" />
+            </Principal>
+            <Dependent Role="Job">
+              <PropertyRef Name="TermFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="careertoolsEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Companies" EntityType="Self.Company" />
+          <EntitySet Name="Contacts" EntityType="Self.Contact" />
+          <EntitySet Name="ContactTypes" EntityType="Self.ContactType" />
+          <EntitySet Name="Events" EntityType="Self.Event" />
+          <EntitySet Name="Jobs" EntityType="Self.Job" />
+          <EntitySet Name="RecruitingCompanies" EntityType="Self.RecruitingCompany" />
+          <EntitySet Name="Refers" EntityType="Self.Refer" />
+          <EntitySet Name="Stages" EntityType="Self.Stage" />
+          <EntitySet Name="Terms" EntityType="Self.Term" />
+          <AssociationSet Name="FK_Job_Company" Association="Self.FK_Job_Company">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="Job" EntitySet="Jobs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Contact_RecruitingCompany" Association="Self.FK_Contact_RecruitingCompany">
+            <End Role="RecruitingCompany" EntitySet="RecruitingCompanies" />
+            <End Role="Contact" EntitySet="Contacts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Event_Contact" Association="Self.FK_Event_Contact">
+            <End Role="Contact" EntitySet="Contacts" />
+            <End Role="Event" EntitySet="Events" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Event_ContactType" Association="Self.FK_Event_ContactType">
+            <End Role="ContactType" EntitySet="ContactTypes" />
+            <End Role="Event" EntitySet="Events" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Event_Job" Association="Self.FK_Event_Job">
+            <End Role="Job" EntitySet="Jobs" />
+            <End Role="Event" EntitySet="Events" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Event_Stage" Association="Self.FK_Event_Stage">
+            <End Role="Stage" EntitySet="Stages" />
+            <End Role="Event" EntitySet="Events" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Job_Refer" Association="Self.FK_Job_Refer">
+            <End Role="Refer" EntitySet="Refers" />
+            <End Role="Job" EntitySet="Jobs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Job_Term" Association="Self.FK_Job_Term">
+            <End Role="Term" EntitySet="Terms" />
+            <End Role="Job" EntitySet="Jobs" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="careertoolsModelStoreContainer" CdmEntityContainer="careertoolsEntities">
+          <EntitySetMapping Name="Companies">
+            <EntityTypeMapping TypeName="careertoolsModel.Company">
+              <MappingFragment StoreEntitySet="Company">
+                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Contacts">
+            <EntityTypeMapping TypeName="careertoolsModel.Contact">
+              <MappingFragment StoreEntitySet="Contact">
+                <ScalarProperty Name="ContactID" ColumnName="ContactID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="RecruitingCompanyFK" ColumnName="RecruitingCompanyFK" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ContactTypes">
+            <EntityTypeMapping TypeName="careertoolsModel.ContactType">
+              <MappingFragment StoreEntitySet="ContactType">
+                <ScalarProperty Name="ContactTypeID" ColumnName="ContactTypeID" />
+                <ScalarProperty Name="ContactTypeName" ColumnName="ContactTypeName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Events">
+            <EntityTypeMapping TypeName="careertoolsModel.Event">
+              <MappingFragment StoreEntitySet="Event">
+                <ScalarProperty Name="EventID" ColumnName="EventID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="ContactFK" ColumnName="ContactFK" />
+                <ScalarProperty Name="JobFK" ColumnName="JobFK" />
+                <ScalarProperty Name="TypeFK" ColumnName="TypeFK" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="StageFK" ColumnName="StageFK" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Jobs">
+            <EntityTypeMapping TypeName="careertoolsModel.Job">
+              <MappingFragment StoreEntitySet="Job">
+                <ScalarProperty Name="JobID" ColumnName="JobID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="JobTitle" ColumnName="JobTitle" />
+                <ScalarProperty Name="Company" ColumnName="Company" />
+                <ScalarProperty Name="ReferType" ColumnName="ReferType" />
+                <ScalarProperty Name="Priority" ColumnName="Priority" />
+                <ScalarProperty Name="TermFK" ColumnName="TermFK" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RecruitingCompanies">
+            <EntityTypeMapping TypeName="careertoolsModel.RecruitingCompany">
+              <MappingFragment StoreEntitySet="RecruitingCompany">
+                <ScalarProperty Name="RecruitingCompanyID" ColumnName="RecruitingCompanyID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Refers">
+            <EntityTypeMapping TypeName="careertoolsModel.Refer">
+              <MappingFragment StoreEntitySet="Refer">
+                <ScalarProperty Name="ReferID" ColumnName="ReferID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Stages">
+            <EntityTypeMapping TypeName="careertoolsModel.Stage">
+              <MappingFragment StoreEntitySet="Stage">
+                <ScalarProperty Name="StageID" ColumnName="StageID" />
+                <ScalarProperty Name="StageName" ColumnName="StageName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Terms">
+            <EntityTypeMapping TypeName="careertoolsModel.Term">
+              <MappingFragment StoreEntitySet="Term">
+                <ScalarProperty Name="TermId" ColumnName="TermId" />
+                <ScalarProperty Name="TermName" ColumnName="TermName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

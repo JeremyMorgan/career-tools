@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="7c4b71e83cf64ea1abb87e87dae2b126" Name="Diagram1">
+        <EntityTypeShape EntityType="careertoolsModel.Company" Width="1.5" PointX="0.75" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="careertoolsModel.Contact" Width="1.5" PointX="3" PointY="10.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="careertoolsModel.ContactType" Width="1.5" PointX="3" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="careertoolsModel.Event" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="careertoolsModel.Job" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="careertoolsModel.RecruitingCompany" Width="1.5" PointX="0.75" PointY="10.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="careertoolsModel.Refer" Width="1.5" PointX="0.75" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="careertoolsModel.Stage" Width="1.5" PointX="3" PointY="14" IsExpanded="true" />
+        <EntityTypeShape EntityType="careertoolsModel.Term" Width="1.5" PointX="0.75" PointY="7.75" IsExpanded="true" />
+        <AssociationConnector Association="careertoolsModel.FK_Job_Company" ManuallyRouted="false" />
+        <AssociationConnector Association="careertoolsModel.FK_Contact_RecruitingCompany" ManuallyRouted="false" />
+        <AssociationConnector Association="careertoolsModel.FK_Event_Contact" ManuallyRouted="false" />
+        <AssociationConnector Association="careertoolsModel.FK_Event_ContactType" ManuallyRouted="false" />
+        <AssociationConnector Association="careertoolsModel.FK_Event_Job" ManuallyRouted="false" />
+        <AssociationConnector Association="careertoolsModel.FK_Event_Stage" ManuallyRouted="false" />
+        <AssociationConnector Association="careertoolsModel.FK_Job_Refer" ManuallyRouted="false" />
+        <AssociationConnector Association="careertoolsModel.FK_Job_Term" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

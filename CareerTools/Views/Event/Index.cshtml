@@ -1,0 +1,75 @@
+﻿@model IEnumerable<CareerTools.Models.Event>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.UserID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TypeFK)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Notes)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Contact.UserID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ContactType.ContactTypeName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Job.UserID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Stage.StageName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TypeFK)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Notes)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Contact.UserID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ContactType.ContactTypeName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Job.UserID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Stage.StageName)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.EventID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.EventID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.EventID })
+        </td>
+    </tr>
+}
+
+</table>
